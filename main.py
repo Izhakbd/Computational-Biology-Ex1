@@ -8,8 +8,9 @@ size = 100 # size of grid
 generations = 250 # number of generation in simulation
 interval = 100  # Time between updates in milliseconds
 
-# Initialize_grid with custome white-black ratio
-def initialize_grid(size, white_ratio=0.75):
+# Initialize_grid with custome white-black ratio - you can change the ratio of white cells in the grid before you run the simulation.
+# The ratio is between 0 and 1, where 0 means all cells are black and 1 means all cells are white.
+def initialize_grid(size, white_ratio=0.5):
     return np.random.choice([0, 1], size=(size, size), p=[1 - white_ratio, white_ratio]).astype(bool)
 
 
@@ -238,24 +239,23 @@ class GridDisplay(tk.Tk):
 
 
     def inject_traffic_light(self):
-        # מצב רמזור 1
-        # This example sets up a simple blinking "traffic light" block
+        # initialize the grid with a traffic light pattern in the center (the middle one)
         center = self.size // 2
         self.grid_data[center-1:center+2, center] = 1  # Vertical "traffic light"
 
-        # 2 מצב רמזור 
-        self.grid_data[60, 1] = 1
-        self.grid_data[62, 2] = 1
-        self.grid_data[63, 2] = 1
-        self.grid_data[64, 1] = 1
+        # initialize the grid with a traffic light pattern number 2 (the top one)
+        self.grid_data[20, 41] = 1
+        self.grid_data[22, 42] = 1
+        self.grid_data[23, 42] = 1
+        self.grid_data[24, 41] = 1
 
-        # 3 מצב רמזור 
+        # initialize the grid with a traffic light pattern number 3 (the bottom one)
         self.grid_data[80, 50] = 1
         self.grid_data[81, 51] = 1
         self.grid_data[82, 51] = 1
         self.grid_data[83, 50] = 1
 
-
+    # This functoin turn the all board to black except the traffic light's ,when press on traffic light mode button
     def on_traffic_light_toggle(self):
         if self.traffic_light_mode.get():
             self.grid_data = np.zeros((self.size, self.size), dtype=bool)
