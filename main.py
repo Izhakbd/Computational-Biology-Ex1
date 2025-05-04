@@ -116,6 +116,19 @@ class GridDisplay(tk.Tk):
         )
         self.traffic_light_checkbox.pack(pady=5)
 
+        # White Ratio Dropdown menu
+        # This dropdown menu allows the user to select the ratio of white cells in the grid.
+        ttk.Label(control_frame, text="White Ratio:").pack(pady=(10, 0))
+        self.white_ratio = tk.StringVar(value="50%")  # Default value
+        self.white_ratio_dropdown = ttk.Combobox(
+            control_frame,
+            textvariable=self.white_ratio,
+            values=["25%", "50%", "75%"],
+            state="readonly"
+        )
+        self.white_ratio_dropdown.pack(pady=5)
+        self.white_ratio_dropdown.bind("<<ComboboxSelected>>", self.on_white_ratio_change)
+
 
 
         self.create_grid()
@@ -164,7 +177,10 @@ class GridDisplay(tk.Tk):
     # a button for restarting the run
     def restart_simulation(self):
         self.stop_simulation()
-        self.grid_data = initialize_grid(self.size)
+        # Convert selected ratio to float (e.g., "75%" → 0.75)
+        selected_ratio = int(self.white_ratio.get().replace("%", "")) / 100
+        self.grid_data = initialize_grid(self.size, white_ratio=selected_ratio)
+
         
         if self.glider_mode.get(): # If glider mode is on
             # Create an all-black grid
@@ -175,7 +191,7 @@ class GridDisplay(tk.Tk):
             self.inject_traffic_light() #Create trafficlight pattern
         else:
             # Regular random initialization
-            self.grid_data = initialize_grid(self.size)
+            self.grid_data = initialize_grid(self.size, white_ratio=selected_ratio)
 
         self.current_generation = 0
         self.metric_values = []
@@ -268,6 +284,20 @@ class GridDisplay(tk.Tk):
         else:
             # If unmark, restart normally
             self.restart_simulation()
+
+    # This function present the white ratio in the grid when the user select a new ratio in the dropdown menu
+    # It will only apply if the glider mode and traffic light mode are not selected.
+    def on_white_ratio_change(self, event=None):
+        # Only apply if not in glider or traffic light mode
+        if self.glider_mode.get() or self.traffic_light_mode.get():
+            return
+
+        #present grid with the new ratio
+        selected_ratio = int(self.white_ratio.get().replace("%", "")) / 100
+        self.grid_data = initialize_grid(self.size, white_ratio=selected_ratio)
+        self.current_generation = 0
+        self.generation_label.config(text="Generation: 0")
+        self.create_grid()
 
 
 # Run the Tkinter GUI
