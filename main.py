@@ -2,10 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
+
 
 # Parameters - you can change them and the behavior of automaton will change
 size = 100 # size of grid
-generations = 250 # number of generation in simulation
+generations = 250 #  defult number of generation in simulation
 interval = 100  # Time between updates in milliseconds
 
 # Initialize_grid with custome white-black ratio - you can change the ratio of white cells in the grid before you run the simulation.
@@ -129,6 +131,15 @@ class GridDisplay(tk.Tk):
         self.white_ratio_dropdown.pack(pady=5)
         self.white_ratio_dropdown.bind("<<ComboboxSelected>>", self.on_white_ratio_change)
 
+        # Spinbox for generations
+        # This spinbox allows the user to input the number of generations for the simulation.
+        ttk.Label(control_frame, text="Generations (250–750):").pack(pady=5)
+        self.generations_spinbox = ttk.Spinbox(
+            control_frame, from_=250, to=750, increment=10,
+            width=10, command=self.update_generations
+        )
+        self.generations_spinbox.set(self.generations)
+        self.generations_spinbox.pack(pady=5)
 
 
         self.create_grid()
@@ -166,6 +177,8 @@ class GridDisplay(tk.Tk):
 
     # a button for starting the run
     def start_simulation(self):
+        if not self.update_generations():
+            return  # Stop if invalid
         if not self.running:
             self.running = True
             self.run_simulation()
@@ -298,6 +311,21 @@ class GridDisplay(tk.Tk):
         self.current_generation = 0
         self.generation_label.config(text="Generation: 0")
         self.create_grid()
+
+    # This function checks if the user input for generations is valid (between 250 and 750)
+    # If the input is valid, it updates the generations attribute and returns True. Otherwise, it shows an error message and returns False.
+    def update_generations(self):
+        try:
+            value = int(self.generations_spinbox.get())
+            if value < 250 or value > 750:
+                raise ValueError
+            self.generations = value # Update the generations attribute
+            return True
+        except ValueError: 
+            # Show an error message if the input is invalid
+            messagebox.showerror("Invalid Input", "Please enter a number between 250 and 750 for generations.")
+            return False
+
 
 
 # Run the Tkinter GUI
