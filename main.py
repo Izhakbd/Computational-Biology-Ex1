@@ -232,11 +232,11 @@ class GridDisplay(tk.Tk):
         # Define a glider pattern and color the glider in white (1 = white)
         # Starting position of the gliders
         
-        # Locate Glider in left up corner of grid - go from top to down
-        self.grid_data[1, 1] = 1
-        self.grid_data[2, 2] = 1
-        self.grid_data[2, 3] = 1
-        self.grid_data[1, 4] = 1
+        # Locate Glider in middle up corner of grid - go from top to down
+        self.grid_data[1, 41] = 1
+        self.grid_data[2, 42] = 1
+        self.grid_data[2, 43] = 1
+        self.grid_data[1, 44] = 1
 
         # Locate Glider in middle left side of grid - go from left to right
         self.grid_data[51, 1] = 1
