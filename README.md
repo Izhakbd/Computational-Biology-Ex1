@@ -10,7 +10,7 @@ At the end of each run (after 250 generations by default), a graph of the stabil
 # For section 2:
 There is a checkbox called "glider mode", when clicked, the initial positions that create the gliders appear in white, and the rest of the board in black.
 You can combine this checkbox with the wraparound checkbox and see the effect on the behavior of the automaton.
-#For section 3:
+# For section 3:
 There is a checkbox called "traffic light mode", when clicked, the initial positions that create the traffic lights appear in white, and the rest of the board in black.
 Also in this section, you can combine this checkbox with the wraparound checkbox and see the effect on the behavior of the automaton.
 
