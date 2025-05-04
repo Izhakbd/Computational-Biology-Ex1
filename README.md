@@ -3,7 +3,7 @@
 # Instructions:
 The user interface of the code is built for all three task stages and contains selection boxes and a selection menu that allows you to switch between the different task stages 
 
-That is, there is a single executable file - main.exe , that appears in git under the dist folder.
+That is, there is a single executable file - main.exe , that appears in git under the dist folder. (the source code is in main.py)
 
 To run, open the terminal in the path where the executable file is located and run the command ./main.exe  (it some OS you don't need the ./)
 # For section 1:
